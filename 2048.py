@@ -33,68 +33,68 @@ def sizemax(width, height):
     ymax=(height*3/4-50)//4
     return(min(xmax,ymax))
 
-def randomize(grille):
-    if '' in grille[0] or '' in grille[1] or '' in grille[2] or '' in grille[3] :
+def randomize(grid):
+    if '' in grid[0] or '' in grid[1] or '' in grid[2] or '' in grid[3] :
         while 1:
             nb=(random.randint(0,3),random.randint(0,3))
-            if grille[nb[0]][nb[1]] =='':
-                grille[nb[0]][nb[1]] = [2,4][random.randint(0,1)]
-                return(grille)
-    else:return(grille)
+            if grid[nb[0]][nb[1]] =='':
+                grid[nb[0]][nb[1]] = [2,4][random.randint(0,1)]
+                return(grid)
+    else:return(grid)
 
-def move(grille,direction):
+def move(grid,direction):
     dep=True
-    grilleinit=grille
+    gridinit=grid
     if direction=='left':
         for _ in range(4):
             for i in range(1,4):
                 for j in range(4):
-                    if grille[i-1][j]=='':
-                        grille[i-1][j]=grille[i][j]
-                        grille[i][j]=''
+                    if grid[i-1][j]=='':
+                        grid[i-1][j]=grid[i][j]
+                        grid[i][j]=''
                         
-                    if grille[i-1][j]==grille[i][j]:
-                        grille[i-1][j]=2*grille[i-1][j]
-                        grille[i][j]=''
+                    if grid[i-1][j]==grid[i][j]:
+                        grid[i-1][j]=2*grid[i-1][j]
+                        grid[i][j]=''
                         
     if direction=='right':
         for _ in range(4):
             for i in range(3):
                 for j in range(4):
-                    if grille[i+1][j]=='':
-                        grille[i+1][j]=grille[i][j]
-                        grille[i][j]=''
+                    if grid[i+1][j]=='':
+                        grid[i+1][j]=grid[i][j]
+                        grid[i][j]=''
                         
-                    if grille[i+1][j]==grille[i][j]:
-                        grille[i+1][j]=2*grille[i+1][j]
-                        grille[i][j]=''
+                    if grid[i+1][j]==grid[i][j]:
+                        grid[i+1][j]=2*grid[i+1][j]
+                        grid[i][j]=''
                         
     if direction=='up':
         for _ in range(4):
             for i in range(4):
                 for j in range(1,4):
-                    if grille[i][j-1]=='':
-                        grille[i][j-1]=grille[i][j]
-                        grille[i][j]=''
+                    if grid[i][j-1]=='':
+                        grid[i][j-1]=grid[i][j]
+                        grid[i][j]=''
                         
-                    if grille[i][j-1]==grille[i][j]:
-                        grille[i][j-1]=2*grille[i][j-1]
-                        grille[i][j]=''
+                    if grid[i][j-1]==grid[i][j]:
+                        grid[i][j-1]=2*grid[i][j-1]
+                        grid[i][j]=''
                         
     if direction=='down':
         for _ in range(4):
             for i in range(4):
                 for j in range(3):
-                    if grille[i][j+1]=='':
-                        grille[i][j+1]=grille[i][j]
-                        grille[i][j]=''
+                    if grid[i][j+1]=='':
+                        grid[i][j+1]=grid[i][j]
+                        grid[i][j]=''
                         
-                    if grille[i][j+1]==grille[i][j]:
-                        grille[i][j+1]=2*grille[i][j+1]
-                        grille[i][j]=''
+                    if grid[i][j+1]==grid[i][j]:
+                        grid[i][j+1]=2*grid[i][j+1]
+                        grid[i][j]=''
                         
-    if grilleinit==grille:dep=True
-    return(grille,dep)
+    if gridinit==grid:dep=True
+    return(grid,dep)
 
 def game():
     pygame.init()
@@ -105,9 +105,9 @@ def game():
 
     run = True
 
-    grille=[[''for _ in range(4)]for _ in range(4)]
+    grid=[[''for _ in range(4)]for _ in range(4)]
     for _ in range(2):
-        grille=randomize(grille)
+        grid=randomize(grid)
     
     while run:
         pygame.draw.rect(game, (150, 150, 150), pygame.Rect(0, 0, width, height))
@@ -116,11 +116,11 @@ def game():
         for i in range(4):
             for j in range(4):
                 pygame.draw.rect(game, (70,70,70),pygame.Rect(width//2-(size+10)*(2-i),height//5 + (size+10)*j,size,size))
-                game.blit(pygame.font.Font.render(pygame.font.SysFont("bahnschrift", 80), str(grille[i][j]), True, (255, 255, 255)), (width//2-(size+10)*(2-i),height//5 + (size+10)*j))
+                game.blit(pygame.font.Font.render(pygame.font.SysFont("bahnschrift", 80), str(grid[i][j]), True, (255, 255, 255)), (width//2-(size+10)*(2-i),height//5 + (size+10)*j))
         if direction!='':
-            grille,dep=move(grille,direction)
+            grid,dep=move(grid,direction)
             if dep==True:
-                grille=randomize(grille)
+                grid=randomize(grid)
             direction=''
             
 
