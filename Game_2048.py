@@ -15,9 +15,9 @@ def randomize(grid):
     else:
         return grid
 
-def move(grid, direction):
+def move(gridinit, direction):
     can_move = False
-    gridinit = copy.deepcopy(grid)
+    grid = copy.deepcopy(gridinit)
 
     if direction == 'left':
         for _ in range(3):  #A number can at most go 3 tiles on his left
@@ -139,7 +139,6 @@ def game(width, height):
     
     while run:
         if direction != '':
-            print(direction)
             grid, can_move = move(grid, direction)
             if can_move == True:
                 grid = randomize(grid)
@@ -167,4 +166,3 @@ def game(width, height):
         pygame.display.update()
     pygame.quit()
 
-game(800, 800)
