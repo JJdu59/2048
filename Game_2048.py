@@ -116,6 +116,23 @@ def lose_detector(grid):
             game_over = False
     return game_over
 
+def get_score(grid):
+    score = 0
+    for i in range(4):
+        for j in range(4):
+            if grid[i][j]:
+                score += int(grid[i][j])
+    return score
+
+def get_highscore():
+    with open("highscore.txt", "r") as f:
+        highscore = int(f.readline())
+    return highscore
+
+def write_highscore(new_highscore):
+    with open("highscore.txt", "w") as f:
+        f.write(str(new_highscore))
+
 def game(width, height):
     pygame.init()
     game = pygame.display.set_mode((width, height))
@@ -147,8 +164,13 @@ def game(width, height):
                 for j in range(4):
                     pygame.draw.rect(game, (69,69,69),pygame.Rect(width//2-(size+10)*(2-i),height//5 + (size+10)*j,size,size))
                     game.blit(pygame.font.Font.render(pygame.font.SysFont("bahnschrift", 80), str(grid[i][j]), True, (255, 255, 255)), (width//2-(size+10)*(2-i),height//5 + (size+10)*j))
+            score = get_score(grid)
+            if score > get_highscore():
+                write_highscore(score)
             if lose_detector(grid):
                 game.blit(pygame.font.Font.render(pygame.font.SysFont("bahnschrift", 256), "Game over", True, (255, 0, 0)), (256, height//2 - 128))
+            pygame.draw.rect(game, (150, 150, 150), pygame.Rect(4 * width // 5, 9 * height // 10, width // 5, height // 10))
+            game.blit(pygame.font.Font.render(pygame.font.SysFont("bahnschrift", 50), f'Score: {score}', True, (255, 255, 255)), (4 * width // 5, 9 * height // 10))
 
         for event in pygame.event.get():
             run = not event.type == pygame.QUIT
